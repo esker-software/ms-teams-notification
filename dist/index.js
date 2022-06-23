@@ -2441,7 +2441,7 @@ module.exports = require("child_process");
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMessageCard = void 0;
-function createMessageCard(notificationSummary, notificationColor, commit, author, runNum, runId, repoName, sha, repoUrl, timestamp) {
+function createMessageCard(notificationTitle, notificationText, notificationColor, commit, author, runNum, runId, repoName, sha, repoUrl, timestamp) {
     let avatar_url = 'https://www.gravatar.com/avatar/05b6d8cc7c662bf81e01b39254f88a48?d=identicon';
     if (author) {
         if (author.avatar_url) {
@@ -2451,9 +2451,9 @@ function createMessageCard(notificationSummary, notificationColor, commit, autho
     const messageCard = {
         '@type': 'MessageCard',
         '@context': 'https://schema.org/extensions',
-        summary: notificationSummary,
+        text: notificationText,
         themeColor: notificationColor,
-        title: notificationSummary,
+        title: notificationTitle,
         sections: [
             {
                 activityTitle: `**CI #${runNum} (commit ${sha.substr(0, 7)})** on [${repoName}](${repoUrl})`,
@@ -3071,7 +3071,8 @@ function run() {
             const msTeamsWebhookUri = core.getInput('ms-teams-webhook-uri', {
                 required: true
             });
-            const notificationSummary = core.getInput('notification-summary') || 'GitHub Action Notification';
+            const notificationTitle = core.getInput('notification-title') || 'GitHub Action Notification';
+            const notificationText = core.getInput('notification-text') || 'My incredible message !';
             const notificationColor = core.getInput('notification-color') || '0b93ff';
             const timezone = core.getInput('timezone') || 'UTC';
             const timestamp = moment_timezone_1.default()
@@ -3086,10 +3087,13 @@ function run() {
             const baseUrl = process.env.GITHUB_SERVER_URL || 'https://github.com';
             const apiBaseUrl = process.env.GITHUB_API_URL || '';
             const repoUrl = `${baseUrl}/${repoName}`;
-            const octokit = new rest_1.Octokit({ auth: `token ${githubToken}`, baseUrl: apiBaseUrl });
+            const octokit = new rest_1.Octokit({
+                auth: `token ${githubToken}`,
+                baseUrl: apiBaseUrl
+            });
             const commit = yield octokit.repos.getCommit(params);
             const author = commit.data.author;
-            const messageCard = yield message_card_1.createMessageCard(notificationSummary, notificationColor, commit, author, runNum, runId, repoName, sha, repoUrl, timestamp);
+            const messageCard = yield message_card_1.createMessageCard(notificationTitle, notificationText, notificationColor, commit, author, runNum, runId, repoName, sha, repoUrl, timestamp);
             console.log(messageCard);
             axios_1.default
                 .post(msTeamsWebhookUri, messageCard)
