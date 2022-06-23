@@ -1,5 +1,6 @@
 export function createMessageCard(
-  notificationSummary: string,
+  notificationTitle: string,
+  notificationText: string,
   notificationColor: string,
   commit: any,
   author: any,
@@ -20,9 +21,9 @@ export function createMessageCard(
   const messageCard = {
     '@type': 'MessageCard',
     '@context': 'https://schema.org/extensions',
-    summary: notificationSummary,
+    text: notificationText,
     themeColor: notificationColor,
-    title: notificationSummary,
+    title: notificationTitle,
     sections: [
       {
         activityTitle: `**CI #${runNum} (commit ${sha.substr(

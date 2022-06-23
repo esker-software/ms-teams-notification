@@ -21,8 +21,10 @@ async function run(): Promise<void> {
       required: true
     })
 
-    const notificationSummary =
-      core.getInput('notification-summary') || 'GitHub Action Notification'
+    const notificationTitle =
+      core.getInput('notification-title') || 'GitHub Action Notification'
+    const notificationText =
+      core.getInput('notification-text') || 'My incredible message !'
     const notificationColor = core.getInput('notification-color') || '0b93ff'
     const timezone = core.getInput('timezone') || 'UTC'
 
@@ -48,7 +50,8 @@ async function run(): Promise<void> {
     const author = commit.data.author
 
     const messageCard = await createMessageCard(
-      notificationSummary,
+      notificationTitle,
+      notificationText,
       notificationColor,
       commit,
       author,
