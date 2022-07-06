@@ -30,6 +30,7 @@ jobs:
           notification-title: Your notification title
           notification-text: Your custom notification message
           notification-color: 17a2b8
+          print-commit: false
           timezone: America/Denver
 ```
 
@@ -40,6 +41,7 @@ jobs:
    - `notification-text` (required), Your custom notification title
    - `notification-text` (required), Your custom notification message (ex. Deployment Started or Build Successful)
    - `notification-color` (optional), Custom color to help distinguish type of notification. Can be any [HEX color](https://html-color.codes/). (ex. **007bff** or **17a2b8** for info, **28a745** success, **ffc107** warning, **dc3545** error, etc.)
+   - `print-commit` (optional) Print commit informations (a boolean, true by default)
    - `timezone` - (optional, defaults to `UTC`), a [valid database timezone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), (ex. Australia/Sydney or America/Denver, etc.)
 
 ## Examples

@@ -2,6 +2,7 @@ export function createMessageCard(
   notificationTitle: string,
   notificationText: string,
   notificationColor: string,
+  printCommit: boolean,
   commit: any,
   author: any,
   runNum: string,
@@ -18,30 +19,56 @@ export function createMessageCard(
       avatar_url = author.avatar_url
     }
   }
-  const messageCard = {
-    '@type': 'MessageCard',
-    '@context': 'https://schema.org/extensions',
-    text: notificationText,
-    themeColor: notificationColor,
-    title: notificationTitle,
-    sections: [
-      {
-        activityTitle: `**CI #${runNum} (commit ${sha.substr(
-          0,
-          7
-        )})** on [${repoName}](${repoUrl})`,
-        activityImage: avatar_url,
-        activitySubtitle: `by ${commit.data.commit.author.name} [(@${author.login})](${author.html_url}) on ${timestamp}`
-      }
-    ],
-    potentialAction: [
-      {
-        '@context': 'http://schema.org',
-        target: [`${repoUrl}/actions/runs/${runId}`],
-        '@type': 'ViewAction',
-        name: 'View Workflow Run'
-      }
-    ]
+  let messageCard = {}
+  if (printCommit) {
+    const messageCard = {
+      '@type': 'MessageCard',
+      '@context': 'https://schema.org/extensions',
+      text: notificationText,
+      themeColor: notificationColor,
+      title: notificationTitle,
+      sections: [
+        {
+          activityTitle: `**CI #${runNum} (commit ${sha.substr(
+            0,
+            7
+          )})** on [${repoName}](${repoUrl})`,
+          activityImage: avatar_url,
+          activitySubtitle: `by ${commit.data.commit.author.name} [(@${author.login})](${author.html_url}) on ${timestamp}`
+        }
+      ],
+      potentialAction: [
+        {
+          '@context': 'http://schema.org',
+          target: [`${repoUrl}/actions/runs/${runId}`],
+          '@type': 'ViewAction',
+          name: 'View Workflow Run'
+        },
+        {
+          '@context': 'http://schema.org',
+          target: [commit.data.html_url],
+          '@type': 'ViewAction',
+          name: 'View Commit Changes'
+        }
+      ]
+    }
+  } else {
+    const messageCard = {
+      '@type': 'MessageCard',
+      '@context': 'https://schema.org/extensions',
+      text: notificationText,
+      themeColor: notificationColor,
+      title: notificationTitle,
+      potentialAction: [
+        {
+          '@context': 'http://schema.org',
+          target: [`${repoUrl}/actions/runs/${runId}`],
+          '@type': 'ViewAction',
+          name: 'View Workflow Run'
+        }
+      ]
+    }
   }
+
   return messageCard
 }
