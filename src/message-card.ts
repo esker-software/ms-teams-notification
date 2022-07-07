@@ -19,11 +19,8 @@ export function createMessageCard(
       avatar_url = author.avatar_url
     }
   }
-  console.log('printCommit: ' + printCommit)
   let messageCard
   if (printCommit) {
-    console.log("We'll display the commit informations")
-
     messageCard = {
       '@type': 'MessageCard',
       '@context': 'https://schema.org/extensions',
@@ -56,8 +53,6 @@ export function createMessageCard(
       ]
     }
   } else {
-    console.log("We'll not display the commit informations")
-
     messageCard = {
       '@type': 'MessageCard',
       '@context': 'https://schema.org/extensions',

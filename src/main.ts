@@ -26,7 +26,8 @@ async function run(): Promise<void> {
     const notificationText =
       core.getInput('notification-text') || 'My incredible message !'
     const notificationColor = core.getInput('notification-color') || '0b93ff'
-    const printCommit = core.getInput('print-commit') == 'true' || true // Cast to boolean
+    const printCommitString = core.getInput('print-commit') || 'true'
+    const printCommit = printCommitString == 'true' // Cast printCommitVariable to boolean
     const timezone = core.getInput('timezone') || 'UTC'
 
     const timestamp = moment()

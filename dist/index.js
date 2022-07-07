@@ -2448,10 +2448,8 @@ function createMessageCard(notificationTitle, notificationText, notificationColo
             avatar_url = author.avatar_url;
         }
     }
-    console.log("printCommit: " + printCommit);
     let messageCard;
     if (printCommit) {
-        console.log("We'll display the commit informations");
         messageCard = {
             '@type': 'MessageCard',
             '@context': 'https://schema.org/extensions',
@@ -2482,7 +2480,6 @@ function createMessageCard(notificationTitle, notificationText, notificationColo
         };
     }
     else {
-        console.log("We'll not display the commit informations");
         messageCard = {
             '@type': 'MessageCard',
             '@context': 'https://schema.org/extensions',
@@ -3097,7 +3094,8 @@ function run() {
             const notificationTitle = core.getInput('notification-title') || 'GitHub Action Notification';
             const notificationText = core.getInput('notification-text') || 'My incredible message !';
             const notificationColor = core.getInput('notification-color') || '0b93ff';
-            const printCommit = core.getInput('print-commit') == 'true' || true; // Cast to boolean
+            const printCommitString = core.getInput('print-commit') || "true";
+            const printCommit = (printCommitString == "true"); // Cast printCommitVariable to boolean
             const timezone = core.getInput('timezone') || 'UTC';
             const timestamp = moment_timezone_1.default()
                 .tz(timezone)
