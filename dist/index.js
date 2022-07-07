@@ -2448,9 +2448,11 @@ function createMessageCard(notificationTitle, notificationText, notificationColo
             avatar_url = author.avatar_url;
         }
     }
-    let messageCard = {};
+    console.log("printCommit: " + printCommit);
+    let messageCard;
     if (printCommit) {
-        const messageCard = {
+        console.log("We'll display the commit informations");
+        messageCard = {
             '@type': 'MessageCard',
             '@context': 'https://schema.org/extensions',
             text: notificationText,
@@ -2480,7 +2482,8 @@ function createMessageCard(notificationTitle, notificationText, notificationColo
         };
     }
     else {
-        const messageCard = {
+        console.log("We'll not display the commit informations");
+        messageCard = {
             '@type': 'MessageCard',
             '@context': 'https://schema.org/extensions',
             text: notificationText,
