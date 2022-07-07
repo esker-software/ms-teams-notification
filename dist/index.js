@@ -3094,7 +3094,7 @@ function run() {
             const notificationTitle = core.getInput('notification-title') || 'GitHub Action Notification';
             const notificationText = core.getInput('notification-text') || 'My incredible message !';
             const notificationColor = core.getInput('notification-color') || '0b93ff';
-            const printCommit = (core.getInput('print-commit') == "true") || true; // Cast to boolean
+            const printCommit = core.getInput('print-commit') == 'true' || true; // Cast to boolean
             const timezone = core.getInput('timezone') || 'UTC';
             const timestamp = moment_timezone_1.default()
                 .tz(timezone)
